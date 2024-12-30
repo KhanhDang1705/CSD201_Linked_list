@@ -13,42 +13,24 @@ public class SingLyLinkedList {
         printListNode();
         getNodeByPosition(3, 8);
         printListNode();
+        System.out.println(removeFirst().getData());
+        printListNode();
+        System.out.println(removeLast().getData());
+        printListNode();
+        System.out.println(remove(0).getData());
+        printListNode();
+        System.out.println(remove(1).getData());
+        printListNode();
     }
 
     public void addFirst(int data){
         Node newNode = new Node(data);
-        newNode.setNext(head);
-        head = newNode;
-    }
-
-    public void addLast(int data){
-        Node newNode = new Node(data);
         if(head == null){
             head = newNode;
-            return;
+        } else{
+            newNode.setNext(head);
+            head = newNode;
         }
-        Node temp = head;
-        while (temp.getNext() != null){
-            temp = temp.getNext();
-        }
-        temp.setNext(newNode);
-    }
-
-    public void getNodeByPosition(int index, int data){
-        Node newNode = new Node(data);
-        if (index == 0){
-            addFirst(data);
-            return;
-        }
-        Node temp = head;
-        int viTri = 0;
-        while (viTri < index - 1){
-            temp = temp.getNext();
-            viTri++;
-        }
-        Node nextNode = temp.getNext();
-        temp.setNext(newNode);
-        newNode.setNext(nextNode);
     }
 
     public void printListNode(){
@@ -61,5 +43,76 @@ public class SingLyLinkedList {
             temp = temp.getNext();
         }
         System.out.println();
+    }
+
+    public void addLast(int data){
+        Node newNode = new Node(data);
+        if(head == null){
+            head = newNode;
+        } else {
+            Node temp = head;
+            while(temp.getNext() != null){
+                temp = temp.getNext();
+            }
+            temp.setNext(newNode);
+        }
+    }
+
+    public void getNodeByPosition(int index, int data){
+        Node newNode = new Node(data);
+        if(index == 0){
+            addFirst(data);
+        } else {
+            Node temp = head;
+            int count = 0;
+            while (count < index - 1) {
+                count++;
+                temp = temp.getNext();
+            }
+            Node nextNode = temp.getNext();
+            temp.setNext(newNode);
+            newNode.setNext(nextNode);
+        }
+    }
+
+    public Node removeFirst(){
+        if(head == null){
+            return null;
+        } 
+        Node delete = head;
+        head = head.getNext();
+        return delete;
+    }
+
+    public Node removeLast(){
+        if(head == null){
+            return null;
+        }
+        Node temp = head;
+        Node pre = null;
+        while (temp.getNext() != null){
+            pre = temp;
+            temp = temp.getNext();
+        }
+        pre.setNext(null);
+        return temp;
+    }
+
+    public Node remove(int index){
+        if(head == null){
+            return null;
+        } else if(index == 0){
+            return removeFirst();
+        }
+        int count = 0;
+        Node temp = head;
+        Node pre = null;
+        while (count < index) { 
+            pre = temp;
+            temp = temp.getNext();
+            count++;
+        }
+        pre.setNext(temp.getNext());
+        return temp;
     }
 }
